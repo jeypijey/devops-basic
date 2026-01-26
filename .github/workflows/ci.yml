@@ -1,4 +1,4 @@
-name: Basic CI Pipeline
+name: Matrix CI Pipeline
 
 on:
  push:
@@ -8,11 +8,20 @@ on:
 
 jobs:
  build:
+  strategy:
+   matrix:
+    os: [ubuntu-latest, windows-latest, macos-latest]
+
   runs-on: ubuntu-latest
 
   steps:
    - name: Checkout code
      uses: actions/checkout@v4
+
+   - name: Show OS info
+     run: |
+       echo "Running on OS"
+       uname -a || ver
 
    - name: Show current directory
      run: pwd
@@ -20,5 +29,3 @@ jobs:
    - name: List repository files
      run: ls -la
 
-   - name: Check README exists
-     run: test -f README.md
