@@ -21,4 +21,4 @@ jobs:
      run: ls -la
 
    - name: Check README exists
-     run: test -f READ.md
+     run: test -f README.md
