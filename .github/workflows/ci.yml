@@ -19,3 +19,6 @@ jobs:
 
    - name: List repository files
      run: ls -la
+
+   - name: Check README exists
+     run: test -f READ.md
