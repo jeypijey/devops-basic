@@ -29,3 +29,6 @@ jobs:
    - name: List repository files
      run: ls -la
 
+   - name: Production only step
+     if: github.ref == 'refs/heads/master'
+     run: echo "Ini hanya berjalan di branch master (production)"
