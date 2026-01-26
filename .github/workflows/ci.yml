@@ -3,19 +3,19 @@ name: Basic CI Pipeline
 on:
  push:
   branches:
-    -master
-    -feature-readme
+    - master
+    - feature-readme
 
 jobs:
  build:
   runs-on: ubuntu-latest
 
   steps:
-   -name: Checkout code
-    uses: actions/checkout@v4
+   - name: Checkout code
+     uses: actions/checkout@v4
 
-   -name: Show current directory
-     run: pwd
+   - name: Show current directory
+      run: pwd
 
-   -name: List repository files
-     run: ls -la
+   - name: List repository files
+      run: ls -la
