@@ -1,4 +1,4 @@
-name: CD Pipeline
+name: CD Pipeline (Simulation)
 
 on:
  push:
@@ -7,15 +7,30 @@ on:
 
 jobs:
  deploy:
+  name: Simulate Deployment
   runs-on: ubuntu-lastest
 
   steps:
    - name: Checkout code
      uses: action/checkout@v4
 
-   - name: Deploy simulation
+   - name: Show deployment environment
+   - run: |
+      echo "Environment : Production"
+      echo "Branch : main"
+      echo "Commit SHA : $GITHUB_SHA"
+
+   - name: Simulate build application...
      run: |
-      echo "Starting deployment..."
-      echo "Code from master branch"
-      echo "Deploying application to production server"
-      echo "Deployment finished successfully"
+      echo "Building application..."
+      sleep 3
+      echo "Build success!"
+
+   - name: Simulate deployment
+     run: |
+      echo "Deploying application to server..."
+      sleep 3
+      echo "Deployment completed successfully!"
+
+   - name: Deployment finished
+     run: echo "CD Pipeline finished successfully"
