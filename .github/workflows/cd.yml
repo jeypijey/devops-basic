@@ -1,0 +1,21 @@
+name: CD Pipeline
+
+on:
+ push:
+  branches:
+   - master
+
+jobs:
+ deploy:
+  runs-on: ubuntu-lastest
+
+  steps:
+   - name: Checkout code
+     uses: action/checkout@v4
+
+   - name: Deploy simulation
+     run: |
+      echo "Starting deployment..."
+      echo "Code from master branch"
+      echo "Deploying application to production server"
+      echo "Deployment finished successfully"
