@@ -8,3 +8,6 @@ SSH setup OK
 
 
 Testing Pull Request workflow
+
+Test pull code from github to server-app
+
