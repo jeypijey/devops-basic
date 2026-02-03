@@ -1,36 +1,28 @@
-name: CD Pipeline (Simulation)
+name: CD - Deploy to VM
 
 on:
-  push:
-    branches:
-      - master
+ push:
+  branches:
+   - master
 
 jobs:
-  deploy:
-    name: Simulate Deployment
-    runs-on: ubuntu-latest
+ deploy:
+  runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  steps:
+   - name: Checkout repository
+     uses: actions/checkout@v4
 
-      - name: Show deployment environment
-        run: |
-          echo "Environment : Production"
-          echo "Branch       : master"
-          echo "Commit SHA   : $GITHUB_SHA"
+   - name: Setup SSH
+     run: |
+       mkdir -p ~/.ssh
+       echo "${{ secret.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+       chmod 600 ~/.ssh/id_ed25519
+       echo "${{ secret.SERVER_HOST_KEY }}" > ~/.ssh/known_host
 
-      - name: Simulate build application
-        run: |
-          echo "Building application..."
-          sleep 3
-          echo "Build success!"
-
-      - name: Simulate deployment
-        run: |
-          echo "Deploying application to server..."
-          sleep 3
-          echo "Deployment completed successfully!"
-
-      - name: Deployment finished
-        run: echo "CD Pipeline finished successfully"
+   - name: Deploy to server
+     run: |
+       ssh -i ~/.ssh/id_ed25519 giant@192.168.56.101 << 'EOF'
+        cd /var/www/devops-basic
+        git pull origin master
+       EOF
