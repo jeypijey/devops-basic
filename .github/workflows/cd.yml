@@ -1,28 +1,31 @@
 name: CD Deployment
 
 on:
- push:
-  branches:
-   - master
+  push:
+    branches:
+      - master
 
 jobs:
- deploy:
-  runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-  steps:
-   - name: Checkout repository
-     uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-   - name: Setup SSH
-     run: |
-       mkdir -p ~/.ssh
-       echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-       chmod 600 ~/.ssh/id_ed25519
-       echo "${{ secrets.SERVER_HOST_KEY }}" > ~/.ssh/known_host
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.SERVER_HOST_KEY }}" > ~/.ssh/known_hosts
 
-   - name: Deploy to server
-     run: |
-       ssh -i ~/.ssh/id_ed25519 giant@192.168.56.101 << 'EOF'
-        cd /var/www/devops-basic
-        git pull origin master
-       EOF
+      - name: Deploy to server
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+          ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+            set -e
+            cd /var/www/devops-basic
+            git pull origin master
+            sudo systemctl reload nginx
+          EOF
