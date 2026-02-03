@@ -16,9 +16,9 @@ jobs:
    - name: Setup SSH
      run: |
        mkdir -p ~/.ssh
-       echo "${{ secret.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+       echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
        chmod 600 ~/.ssh/id_ed25519
-       echo "${{ secret.SERVER_HOST_KEY }}" > ~/.ssh/known_host
+       echo "${{ secrets.SERVER_HOST_KEY }}" > ~/.ssh/known_host
 
    - name: Deploy to server
      run: |
