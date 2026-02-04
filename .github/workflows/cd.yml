@@ -1,32 +1,31 @@
-name: CD Deployment
+name: CD Deployment (Simulation)
 
 on:
-  push:
-    branches:
-      - master
+ push:
+  branches:
+   - master
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+ deploy:
+  runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  steps:
+   - name: Checkout code
+     uses: actions/checkout@v4
 
-      - name: Setup SSH
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SERVER_HOST_KEY: ${{ secrets.SERVER_HOST_KEY }}
-        run: |
-          mkdir -p "$HOME/.ssh"
-          chmod 700 "$HOME/.ssh"
+   - name: Verify environment
+      run: |
+        echo "Runner OS"
+        uname -a
 
-          echo "$SSH_PRIVATE_KEY" > "$HOME/.ssh/id_ed25519"
-          chmod 600 "$HOME/.ssh/id_ed25519"
+   - name: Simulate build
+      run: |
+        echo " Simulating build process... "
+        sleep 2
+        echo " Build step finished "
 
-          echo "$SERVER_HOST_KEY" > "$HOME/.ssh/known_hosts"
-          chmod 644 "$HOME/.ssh/known_hosts"
-
-      - name: Deploy to server
-        run: |
-          ssh giant@192.168.56.101 "echo 'Deploy success'"
+   - name: Simulate deploy
+      run: |
+        echo " Simulating deployment... "
+        sleep 2
+        echo " Deployment simulation successful "
