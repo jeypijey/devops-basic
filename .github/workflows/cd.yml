@@ -1,31 +1,31 @@
 name: CD Deployment (Simulation)
 
 on:
- push:
-  branches:
-   - master
+  push:
+    branches:
+      - master
 
 jobs:
- deploy:
-  runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-  steps:
-   - name: Checkout code
-     uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-   - name: Verify environment
-      run: |
-        echo "Runner OS"
-        uname -a
+      - name: Verify environment
+        run: |
+          echo "Runner OS:"
+          uname -a
 
-   - name: Simulate build
-      run: |
-        echo " Simulating build process... "
-        sleep 2
-        echo " Build step finished "
+      - name: Simulate build
+        run: |
+          echo "🔧 Simulating build process..."
+          sleep 2
+          echo "✅ Build step finished"
 
-   - name: Simulate deploy
-      run: |
-        echo " Simulating deployment... "
-        sleep 2
-        echo " Deployment simulation successful "
+      - name: Simulate deploy
+        run: |
+          echo "🚀 Simulating deployment..."
+          sleep 2
+          echo "🎉 Deployment simulation successful"
