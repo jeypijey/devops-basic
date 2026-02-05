@@ -1,0 +1,20 @@
+name: Test Self Hosted Runner
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Who am I
+        run: whoami
+
+      - name: Where am I
+        run: pwd
+
+      - name: Hostname
+        run: hostname
