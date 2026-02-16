@@ -5,18 +5,18 @@ on:
   branches: [ master ]
 
 jobs:
- build:
-  runs-on: ubuntu-latest
+  build-and-push:
+    runs-on: ubuntu-latest
 
-  steps:
-   - name: Checkout repository
-     uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-   - name: Show repository structure
-     run: ls -la
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-   - name: Build Docker Image
-     run: docker build -t devops-basic .
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-basic:latest .
 
-   - name: CI Success
-     run: echo "Docker image built successfully"
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/devops-basic:latest
