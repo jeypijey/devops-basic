@@ -1,34 +1,22 @@
-name: Matrix CI Pipeline
+name: CI - Docker Build Validation
 
 on:
- push:
-  branches:
-    - master
-    - feature-readme
+ pull_request:
+  branches: [ master ]
 
 jobs:
  build:
-  strategy:
-   matrix:
-    os: [ubuntu-latest, windows-latest, macos-latest]
-
   runs-on: ubuntu-latest
 
   steps:
-   - name: Checkout code
+   - name: Checkout repository
      uses: actions/checkout@v4
 
-   - name: Show OS info
-     run: |
-       echo "Running on OS"
-       uname -a || ver
-
-   - name: Show current directory
-     run: pwd
-
-   - name: List repository files
+   - name: Show repository structure
      run: ls -la
 
-   - name: Production only step
-     if: github.ref == 'refs/heads/master'
-     run: echo "Ini hanya berjalan di branch master (production)"
+   - name: Build Docker Image
+     run: docker build -t devops-basic .
+
+   - name: CI Success
+     run: echo "Docker image built successfully"
