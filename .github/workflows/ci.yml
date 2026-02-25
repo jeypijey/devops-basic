@@ -1,8 +1,8 @@
-name: CI - Docker Build Validation
+name: CI - Docker Release
 
 on:
- pull_request:
-  branches: [ master ]
+  push:
+    branches: [ master ]
 
 jobs:
   build-and-push:
@@ -15,8 +15,14 @@ jobs:
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-basic:latest .
+      - name: Build Docker Image
+        run: docker build -t jeypijey03/devops-basic:v2 .
 
-      - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/devops-basic:latest
+      - name: Tag latest
+        run: docker tag jeypijey03/devops-basic:v2 jeypijey03/devops-basic:latest
+
+      - name: Push v2
+        run: docker push jeypijey03/devops-basic:v2
+
+      - name: Push latest
+        run: docker push jeypijey03/devops-basic:latest
